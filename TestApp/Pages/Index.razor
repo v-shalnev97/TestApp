@@ -1,0 +1,39 @@
+﻿@page "/"
+
+<h1>Table</h1>
+
+<select @onchange="OnChangedYear">
+    @foreach (var option in Years)
+    {
+        <option value="@option" selected="@(option == selectedYear)">@option</option>
+    }
+</select>
+
+<select @onchange="OnChangedCountry">
+    @foreach (var option in Countries)
+    {
+        <option value="@option.Value" selected="@(option.Value == selectedCountry)">@option.Key</option>
+    }
+</select>
+
+<table border="1">
+    <thead>
+        <th>Date</th>
+        <th>Holiday</th>
+    </thead>
+    <tbody>
+        @for (var currentDate = startDate; currentDate <= endDate; currentDate = currentDate.AddDays(1))
+        {
+            <tr>
+                <td>@currentDate.ToShortDateString()</td>
+                @{ 
+                    var holiday = holidays?.FirstOrDefault(h => currentDate == h.Date);
+                    if (holiday != null)
+                    {
+                        <td>@holiday.LocalName</td>
+                    }
+                }
+            </tr>
+        }
+    </tbody>
+</table>
